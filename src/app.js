@@ -5,6 +5,7 @@ const fs = require('fs');
 //global variables
 let vb =1;
 const greetings = ["Enter Installation instruction: ", "Describe usage: ", "Contributors(use ',' to seperate): "];
+const heading = ["Installation Instruction", "Usage", "Contributor(s)"];
 
 //Create project file
 rl.question("Project name? : ", (res)=>{
@@ -19,7 +20,7 @@ rl.question("Project name? : ", (res)=>{
 
 testQ = (name,vb)=>{  
     rl.question(`${greetings[vb-1]}`, (inst)=>{
-        fs.appendFile(`${name}.md`,`\n ${inst}`, 
+        fs.appendFile(`${name}.md`,`\n${heading[vb-1]}:\n --${inst}`, 
         (err)=>{
             if(err){
                 console.log(err);
@@ -27,7 +28,15 @@ testQ = (name,vb)=>{
         });
         vb++;
         if(vb<4){testQ(name,vb);}
-        else{rl.close();}
+        else{
+            fs.appendFile(`${name}.md`,`\nCreated at: ${Date()}`, 
+                (err)=>{
+                    if(err){
+                        console.log(err);
+                    }
+            });
+            rl.close();
+        }
     });  
 }
 
